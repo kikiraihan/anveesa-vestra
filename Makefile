@@ -1,4 +1,4 @@
-.PHONY: dev build
+.PHONY: dev build create-user
 
 dev:
 	@trap 'kill 0' INT; \
@@ -9,3 +9,10 @@ dev:
 build:
 	@cd server && go build -o ../bin/server .
 	@cd web && bun run build
+
+create-user:
+	@cd server && go run cmd/create-user/main.go \
+	  -username "$(USERNAME)" \
+	  -password "$(PASSWORD)" \
+	  -role "$(or $(ROLE),admin)" \
+	  -db "data.db"

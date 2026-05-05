@@ -93,6 +93,49 @@ make build    # Compile Go binary to bin/server and build web/dist/
 
 ---
 
+## User Management
+
+### Roles
+
+| Role | File Operations | Manage Connections | User Management | Notifications |
+|---|---|---|---|---|
+| `admin` | Yes | Yes | Yes | Yes |
+| `editor` | Yes | Yes | No | No |
+| `viewer` | Yes (read-only via UI) | No | No | No |
+
+- **admin** — full access to everything including creating/deleting users and managing notification channels.
+- **editor** — can browse, upload, download, delete, and transfer files across all connections.
+- **viewer** — read-only access; write operations are restricted at the UI level.
+
+### Creating the First User
+
+On first run, open the app in a browser. The setup wizard will prompt you to create the initial admin account.
+
+Alternatively, use the CLI:
+
+```bash
+make create-user USERNAME=admin PASSWORD=yourpassword123
+```
+
+### Creating Additional Users
+
+```bash
+# Admin (default)
+make create-user USERNAME=alice PASSWORD=yourpassword123
+
+# Editor
+make create-user USERNAME=bob PASSWORD=yourpassword123 ROLE=editor
+
+# Viewer
+make create-user USERNAME=carol PASSWORD=yourpassword123 ROLE=viewer
+```
+
+The server does not need to be running — this command writes directly to the SQLite database.
+
+You can also create users from **Settings → Users** in the web UI (admin only).
+
+---
+
 ## Community
 
 - **Website**: [anveesa.com](https://anveesa.com) — announcements, guides, and community resources
